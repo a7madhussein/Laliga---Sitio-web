@@ -1,3 +1,14 @@
+<?php
+// Inicia la sesión si no está iniciada
+session_start();
+
+// Verifica si el usuario ha iniciado sesión
+if (!isset($_SESSION['nombre']) || !isset($_SESSION['email']) || !isset($_SESSION['rol'])) {
+    // Si no ha iniciado sesión, redirige a la página de inicio de sesión
+    header("Location: SitioWeb/php/IniciarSesion.php");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <!-- Comienzo del head -->
@@ -24,9 +35,37 @@
     <script src="SitioWeb/js/enlaceinterno.js"></script>
     <script src="SitioWeb/js/cargar.js"></script>
     <script src="SitioWeb/js/CambiarPagsele.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ 
+
+
 </head>
 <!-- Comienzo del body -->
+
 <body>
+    <div id="usuariocontainer">
+    <div class="contenidousuario" id="contenidousuario">
+        <div class="X" onclick="cancelarUsuario()">
+            &times;
+        </div>
+        <center>
+            <p><?php echo $_SESSION['email']; ?></p>
+        </center>
+        <img src="SitioWeb/imagenes/usuario.png" class="usuarioimg">
+        <a class="editarimg" href="SitioWeb/php/EditarUsuario.php">✎</a>
+        <h1>¡Hola <?php echo $_SESSION['nombre']; ?>!</h1>
+        <hr>
+        <h2>Nombre:</h2>
+        <p><?php echo $_SESSION['nombre']; ?></p>
+        <h2>Rol:</h2>
+        <p><?php echo $_SESSION['rol']; ?></p>
+        <?php if ($_SESSION['rol'] !== 'usuario') { ?>
+                <button type="button" class="crear" name="paneladmin">Panel de administración</button>
+            <?php } ?>
+        <a href="SitioWeb/php/CerrarSesion.php"><button type="button" value="cancelar" class="cancelar">Cerrar sesión</button></a>
+    </div>
+
+    </div>
     <!-- **********NAVBAR*************+ -->
     <header id="cabecera">
         <nav id="menu" class="navprincipal">
@@ -88,9 +127,7 @@
             </ul>
             <ul>
                 <div class="nav-posicion4">
-                    <a href="SitioWeb/php/IniciarSesion.php"><button class="BotonSesiones">Iniciar
-                        sesión</button></a>
-
+                    <a href="#" class="usuario" id="icoUsuario"><img src="SitioWeb/imagenes/usuario.png" alt=""></a>
                 </div>
             </ul>
             </div>
@@ -133,8 +170,9 @@
                     </div>
                     <div>
                         <li>
-                            <a href="SitioWeb/php/IniciarSesion.php"><button class="BotonSesiones2">Iniciar
-                                sesión</button></a>
+
+                            <a href="#" class="usuario2" id="icoUsuario2"><img src="SitioWeb/imagenes/usuario.png"
+                                    alt="icousuario"></a>
                         </li>
                     </div>
 
@@ -143,11 +181,14 @@
         </div>
         <script src="SitioWeb/js/MostrarMas.js"></script>
         <script src="SitioWeb/js/resize.js"></script>
+        <script src="Sitioweb/js/perfilUsuario.js">
 
+        </script>
 
 
     </header>
     <!-- **********CONTENIDO************* -->
+    <div id="formContainer"></div><!--Contenedor para el formulario-->
     <div id="contenido"></div>
     <!-- **********FOOTER************* -->
     <footer>
@@ -251,7 +292,8 @@
     </footer>
     <button id="botonFijo" onclick="irAlInicio()"><img width="15px" src="SitioWeb/imagenes/arriba.png"
             alt="flecharriba"></button>
-d
+    <button id="descargarBtn" class="descargar"><img src="SitioWeb/imagenes/descargar.png" alt="" /></button>
+
 </body>
 
 </html>
